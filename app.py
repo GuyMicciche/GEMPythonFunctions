@@ -1,9 +1,12 @@
 import os
-
+from wol.functions import functions_bp
 from flask import (Flask, redirect, render_template, request,
                    send_from_directory, url_for)
 
 app = Flask(__name__)
+
+# Register blueprints from other modules
+app.register_blueprint(functions_bp)
 
 
 @app.route('/')

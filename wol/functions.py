@@ -45,7 +45,7 @@ def process_daily_text(html_content):
     formatted_date = today.strftime('%Y-%m-%dT00:00:00.000Z')
     
     # Parse the HTML with BeautifulSoup
-    soup = BeautifulSoup(html_content, 'html.parser')
+    soup = BeautifulSoup(html_content)
     
     # Determine the index for "today"
     day = 1  # Index 1 for today in the list of daily texts

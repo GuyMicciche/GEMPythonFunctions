@@ -44,7 +44,7 @@ def process_daily_text(html_content):
     
     # Extract the date text from the first <h2> tag
     date_tag = soup.find('h2')  # This gets the first <h2> tag
-    date_text = h2_tag.get_text(strip=True) if h2_tag else 'Not Found'
+    date_text = date_tag.get_text(strip=True) if date_tag else 'Not Found'
 
     # Extract the theme scripture text from the <p> tag with class "themeScrp"
     themeScrp_tag = soup.find('p', class_='themeScrp')

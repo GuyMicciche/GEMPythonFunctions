@@ -50,7 +50,7 @@ def mediaitems():
         return jsonify({"error": str(e)}), 500
     
 # Example GET: http://localhost:5000/mediaitem/E/pub-jwb-080_9_VIDEO
-@app.route("/mediaitem/<language>/<mediaItem>", methods=['GET'])
+@functions_bp.route("/mediaitem/<language>/<mediaItem>", methods=['GET'])
 def mediaitem(language, mediaItem):
     try:
         # If the route is /mediainfo/<language>/<mediaItem>

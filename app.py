@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 # Register blueprints from other modules
 app.register_blueprint(functions_bp)
-
+app.json.sort_keys = False
 
 @app.route('/')
 def index():

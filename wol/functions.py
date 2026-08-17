@@ -64,8 +64,9 @@ def mediaitem(language, mediaItem):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
         
-@functions_bp.route('/dailytext', methods=['GET', 'POST'])
-def dailytext():
+@functions_bp.route('/dailytext', defaults={"year": None, "month": None, "day": None}, methods=['GET', 'POST'])
+@functions_bp.route("/dailytext/<int:year>/<int:month>/<int:day>")
+def dailytext(year, month, day):
     """Handles both GET and POST requests to retrieve and process daily text."""
     
     if request.method == 'POST':
@@ -77,10 +78,21 @@ def dailytext():
             return jsonify({"error": "No HTML content provided"}), 400
     
     elif request.method == 'GET':
+        if year is None:
+            requested_date = datetime.today()
+        else:
+            try:
+                requested_date = datetime(year, month, day)
+            except ValueError:
+                return jsonify({
+                    "error": "Invalid date. Use /dailytext/YYYY/MM/DD"
+                }), 400
+        
         # Handle the GET request by fetching the HTML content from the WOL site
-        today = datetime.today()
-        url_date = today.strftime("%Y/%m/%d")
+        url_date = requested_date.strftime("%Y/%m/%d")
         url = f"https://wol.jw.org/en/wol/dt/r1/lp-e/{url_date}"
+
+        print(f"Fetching daily text from URL: {url}")
         
         # Send an HTTP GET request to the URL
         response = requests.get(url,headers={
@@ -89,8 +101,6 @@ def dailytext():
             "Accept-Language": "en-US,en;q=0.9",
         })
 
-        print(f"Fetching daily text from URL: {url} - Status Code: {response.status_code} response: {response.text}...")  # Print the first 100 characters of the response for debugging  eques
-        
         # Check if the request was successful (status code 200)
         if response.status_code == 200:
             html_input = response.text

@@ -83,7 +83,13 @@ def dailytext():
         url = f"https://wol.jw.org/en/wol/dt/r1/lp-e/{url_date}"
         
         # Send an HTTP GET request to the URL
-        response = requests.get(url)
+        response = requests.get(url,headers={
+            "User-Agent": "Mozilla/5.0",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.9",
+        })
+
+        print(f"Fetching daily text from URL: {url} - Status Code: {response.status_code} response: {response.text}...")  # Print the first 100 characters of the response for debugging  eques
         
         # Check if the request was successful (status code 200)
         if response.status_code == 200:
